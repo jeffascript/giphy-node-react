@@ -7,6 +7,7 @@ import './App.css';
 import MyListIndicator from './components/Nav/MyListIndicator';
 import SearchBox from './components/Search/SearchBox';
 import CardList from './components/Media/CardList';
+import { SearchHookProvider } from './ContextAPI/SearchHookContext';
 
 const StyledWrapper = styled(Container)`
     overflow-x: hidden;
@@ -26,15 +27,17 @@ const MainWrapper: React.FC = ({ children, ...props }) => {
 function App() {
     return (
         <>
-            <div className="container-fluid p-0 main-dark">
-                <MainWrapper>
-                    <MyListIndicator />
-                    <StyledContainer>
-                        <SearchBox />
-                        <CardList />
-                    </StyledContainer>
-                </MainWrapper>
-            </div>
+            <SearchHookProvider>
+                <div className="container-fluid p-0 main-dark">
+                    <MainWrapper>
+                        <MyListIndicator />
+                        <StyledContainer>
+                            <SearchBox />
+                            <CardList />
+                        </StyledContainer>
+                    </MainWrapper>
+                </div>
+            </SearchHookProvider>
         </>
     );
 }

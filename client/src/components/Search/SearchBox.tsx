@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import axios from 'axios';
 import { Icon, Input, InputGroup, Tooltip, Whisper } from 'rsuite';
 import styled from '@emotion/styled';
+import { ICache, useSearchContext } from '../../ContextAPI/SearchHookContext';
+import { ActionType } from '../../ContextAPI/Actions';
+
 // interface Props {}
 
 const FlexContainer = styled.div`
@@ -34,7 +38,17 @@ const StyledInput = styled(Input)`
 //     } */
 // `;
 
-const SearchBox: React.FC = (props) => {
+const SearchBox: React.FC = React.memo(() => {
+    const { context, fetchWithQuery } = useSearchContext();
+
+    const [state, setState] = useState<string>('');
+
+    const getResult = async () => {
+        fetchWithQuery(state);
+    };
+
+    console.log('context state', context.state);
+
     return (
         <FlexContainer>
             <Whisper
@@ -42,15 +56,15 @@ const SearchBox: React.FC = (props) => {
                 speaker={<Tooltip>Minimum of 3 letters Required</Tooltip>}
                 placement={'bottomStart'}
             >
-                <StyledInputGroup inside>
-                    <StyledInput />
-                    <InputGroup.Button>
+                <StyledInputGroup inside={true}>
+                    <StyledInput onChange={(e) => setState(e)} value={state} />
+                    <InputGroup.Button onClick={getResult}>
                         <Icon icon="search" />
                     </InputGroup.Button>
                 </StyledInputGroup>
             </Whisper>
         </FlexContainer>
     );
-};
+});
 
 export default SearchBox;
