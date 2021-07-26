@@ -1,20 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense, lazy, useEffect } from 'react';
+
+import { Container } from 'rsuite';
+import styled from '@emotion/styled';
 import './App.css';
+
+import MyListIndicator from './components/Nav/MyListIndicator';
+import SearchBox from './components/Search/SearchBox';
+import CardList from './components/Media/CardList';
+
+const StyledWrapper = styled(Container)`
+    overflow-x: hidden;
+    padding: 0;
+    height: 100vh;
+`;
+
+const StyledContainer = styled.div`
+    max-width: 900px;
+    margin: 0 auto;
+`;
+
+const MainWrapper: React.FC = ({ children, ...props }) => {
+    return <StyledWrapper {...props}>{children}</StyledWrapper>;
+};
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <>
+            <div className="container-fluid p-0 main-dark">
+                <MainWrapper>
+                    <MyListIndicator />
+                    <StyledContainer>
+                        <SearchBox />
+                        <CardList />
+                    </StyledContainer>
+                </MainWrapper>
+            </div>
+        </>
     );
 }
 
