@@ -4,6 +4,7 @@ export interface ISearchQuery {
 }
 
 export type GifResponse = {
+    id: string;
     height: string;
     width: string;
     size: string;

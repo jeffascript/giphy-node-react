@@ -12,7 +12,10 @@ interface ISearch {
 class SearchController implements ISearch {
     private formatResult(dataArr: any): GifResponse[] {
         const data = dataArr.data.map(
-            (datum: { images: { downsized_medium: GifResponse } }) => datum.images.downsized_medium,
+            (datum: { id: Partial<GifResponse>; images: { downsized_medium: Partial<GifResponse> } }) => ({
+                id: datum.id,
+                ...datum.images.downsized_medium,
+            }),
         );
         return data as GifResponse[];
     }
