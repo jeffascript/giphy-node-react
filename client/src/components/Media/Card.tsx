@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { FaBookmark, FaLink } from 'react-icons/fa';
+import ActionButton from '../Button/ActionButton';
 
 const StyledImgContainer = styled.div`
     margin: 10px;
@@ -189,15 +190,16 @@ const Card: React.FC<Props> = (props) => {
             <StyledContainer onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                 <img src={props.url} />
                 <div className={hovered ? `d-flex justify-content-center align-items-center hovered` : `d-none`}>
-                    <div className="copy ">
+                    <ActionButton className="copy ">
                         co
                         <FaLink />y
-                    </div>
-                    <div className="bookmark">
+                    </ActionButton>
+
+                    <ActionButton className="bookmark">
                         Bookm
                         <FaBookmark />
                         rk
-                    </div>
+                    </ActionButton>
                 </div>
             </StyledContainer>
         </>

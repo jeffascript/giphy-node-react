@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Button, ButtonToolbar, Drawer, Placeholder } from 'rsuite';
+import BookmarkedGifs from './BookmarkedGifs';
 
 const { Paragraph } = Placeholder;
 interface Props {
@@ -24,10 +25,11 @@ const DrawerComponent: FC<Props> = ({ show, toggleDrawer }) => {
         <div>
             <Drawer size={'xs'} placement={'right'} show={show} onHide={toggleDrawer}>
                 <Drawer.Header>
-                    <Drawer.Title>Drawer Title</Drawer.Title>
+                    <Drawer.Title>Bookmarks</Drawer.Title>
                 </Drawer.Header>
                 <Drawer.Body>
-                    <Paragraph />
+                    {/* <Paragraph /> */}
+                    <BookmarkedGifs />
                 </Drawer.Body>
                 <Drawer.Footer>
                     <Button onClick={toggleDrawer} style={{ background: 'var(--app-green)' }}>
