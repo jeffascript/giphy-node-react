@@ -13,7 +13,6 @@ const FlexContainer = styled.div`
 `;
 
 const StyledInputGroup = styled(InputGroup)`
-    width: 500px !important;
     margin-bottom: 10px;
     margin: 2rem;
 `;

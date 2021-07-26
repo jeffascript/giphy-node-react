@@ -1,6 +1,8 @@
 :root {
     --dark: #131313;
     --app-green: #00e7cb;
+    --app-green-darker: #4e9a91e6;
+    --content-width: 900px;
 }
 
 .main-dark1 {

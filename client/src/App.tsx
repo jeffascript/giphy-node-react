@@ -15,7 +15,7 @@ const StyledWrapper = styled(Container)`
 `;
 
 const StyledContainer = styled.div`
-    max-width: 900px;
+    max-width: var(--content-width);
     margin: 0 auto;
 `;
 

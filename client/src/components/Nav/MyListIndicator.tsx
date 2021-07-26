@@ -47,7 +47,7 @@ const StyledBookmarkContainer = styled.div`
 // interface Props {}
 
 const MyListIndicator: FC = (props) => {
-    const [toggle, setToggled] = useState(false);
+    const [toggle, setToggled] = useState<boolean>(false);
 
     const openModal = useCallback(() => {
         setToggled(!toggle);
@@ -60,7 +60,7 @@ const MyListIndicator: FC = (props) => {
             </ButtonToolbar> */}
             <StyledDiv>
                 <FlexContainer>
-                    <h5>Search For your GIFS!!! </h5>
+                    <h2>Search For your GIFS!!! </h2>
                     <StyledBookmarkContainer onClick={openModal}>
                         <Badge content={999}>
                             <IconContext.Provider value={{ style: { fontSize: '40px', color: 'var(--dark)' } }}>
