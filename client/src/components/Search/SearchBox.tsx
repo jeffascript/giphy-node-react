@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { Icon, InputGroup, Tooltip, Whisper } from 'rsuite';
 import { VscClearAll } from 'react-icons/vsc';
 import { useSearchContext } from '../../ContextAPI/SearchHookContext';
-
 import ActionButton from '../Button/ActionButton';
 import { FlexContainer, StyledInputGroup, StyledInput } from './searchbox.styles';
 import { ActionType } from '../../ContextAPI/Actions.context';

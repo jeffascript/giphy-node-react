@@ -23,7 +23,7 @@ const MyListIndicator: FC = () => {
         <>
             <StyledDiv>
                 <FlexContainer>
-                    <h2>Search For your GIFS!!! </h2>
+                    <h2>Search For Your GIFS!!! </h2>
                     <StyledBookmarkContainer onClick={openModal}>
                         <Badge content={LoadedCount ?? 0} className={status === Status.Pending ? `blink_me` : `none`}>
                             <IconContext.Provider value={{ style: { fontSize: '40px', color: 'var(--dark)' } }}>
