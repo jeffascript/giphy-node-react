@@ -7,6 +7,7 @@ import ActionButton from '../Button/ActionButton';
 
 import { removeBookmark } from '../../redux/bookmark.slice';
 import { RootState } from '../../redux/store';
+import { CopyStatusEnum, useClipboardCopyHook } from '../../hooks/useCopyClipboard';
 
 const { Paragraph } = Placeholder;
 interface IProps {
@@ -22,6 +23,18 @@ const BookmarkedGifs: FC<IProps> = ({ url, id }) => {
         allBookmarkState: { bookmarks, bookmarkError, LoadedCount, status },
     } = useSelector((state: RootState) => state);
     const dispatch = useDispatch();
+
+    const [copyUrlStatus, copyUrl] = useClipboardCopyHook(url);
+
+    const handleClipboardCopy = () => {
+        copyUrl();
+        Alert.success(
+            <a href="https://markdown-it.github.io" target="_blank" rel="noopener noreferrer">
+                GIF copied successfully!! Click here to test on a MarkDown file
+            </a>,
+            7000,
+        );
+    };
     // const initialState = {
     //     show: false,
     // };
@@ -48,7 +61,7 @@ const BookmarkedGifs: FC<IProps> = ({ url, id }) => {
             >
                 <div className="container">
                     <div className="row">
-                        <ActionButton className="col ">
+                        <ActionButton className="col" onClick={handleClipboardCopy}>
                             <FaLink /> <br /> Copy
                         </ActionButton>
 

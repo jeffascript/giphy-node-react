@@ -1,25 +1,10 @@
-import React, { Suspense, lazy, useEffect } from 'react';
-
-import { Container } from 'rsuite';
-import styled from '@emotion/styled';
+import React from 'react';
 import './App.css';
-
 import MyListIndicator from './components/Nav/MyListIndicator';
 import SearchBox from './components/Search/SearchBox';
 import CardList from './components/Media/CardList';
-import { SearchHookProvider } from './ContextAPI/SearchHookContext';
-
-const StyledWrapper = styled(Container)`
-    overflow-x: hidden;
-    padding: 0;
-    height: 100vh;
-`;
-
-const StyledContainer = styled.div`
-    max-width: var(--content-width);
-    margin: 0 auto;
-    width: 100%;
-`;
+import { SearchHookContextProvider } from './ContextAPI/SearchHookContext';
+import { StyledContainer, StyledWrapper } from './App.styles';
 
 const MainWrapper: React.FC = ({ children, ...props }) => {
     return <StyledWrapper {...props}>{children}</StyledWrapper>;
@@ -28,7 +13,7 @@ const MainWrapper: React.FC = ({ children, ...props }) => {
 function App() {
     return (
         <>
-            <SearchHookProvider>
+            <SearchHookContextProvider>
                 <div className="container-fluid p-0 main-dark">
                     <MainWrapper>
                         <MyListIndicator />
@@ -38,7 +23,7 @@ function App() {
                         </StyledContainer>
                     </MainWrapper>
                 </div>
-            </SearchHookProvider>
+            </SearchHookContextProvider>
         </>
     );
 }

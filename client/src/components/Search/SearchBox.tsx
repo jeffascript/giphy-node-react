@@ -67,7 +67,13 @@ const SearchBox: React.FC = React.memo(() => {
                     placement={'bottomStart'}
                 >
                     <StyledInputGroup inside={true}>
-                        <StyledInput onChange={(e) => setState(e)} value={state} onPressEnter={fetchGifs} />
+                        <StyledInput
+                            onChange={(e) => setState(e)}
+                            value={state}
+                            onPressEnter={fetchGifs}
+                            size={'lg'}
+                            placeholder={'Start typing ... e.g: happy'}
+                        />
                         <InputGroup.Button onClick={fetchGifs}>
                             <Icon icon="search" />
                         </InputGroup.Button>

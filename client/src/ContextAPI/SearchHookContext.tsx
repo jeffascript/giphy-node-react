@@ -63,7 +63,7 @@ export function searchReducer(state: InitialStateType, action: SearchActions) {
     }
 }
 
-const SearchHookProvider = (props: Partial<IProps>) => {
+const SearchHookContextProvider = (props: Partial<IProps>) => {
     const [state, dispatch] = useReducer(searchReducer, initialState);
 
     return (
@@ -120,7 +120,7 @@ const useSearchContext = () => {
 
                     context.dispatch({ type: ActionType.Success, payload: data });
                 } catch (error) {
-                    context.dispatch({ type: ActionType.Success, payload: error.message });
+                    context.dispatch({ type: ActionType.Error, error: error.message });
                 }
             }
         },
@@ -168,4 +168,4 @@ const useSearchContext = () => {
     return { fetchWithHooks, context };
 };
 
-export { useSearchContext, SearchHookProvider };
+export { useSearchContext, SearchHookContextProvider };

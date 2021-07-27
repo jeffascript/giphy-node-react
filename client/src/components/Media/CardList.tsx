@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import styled from '@emotion/styled';
 
 import { Col, FlexboxGrid, Grid, Row } from 'rsuite';
-import DATA from './data.json';
+
 import Card from './Card';
 import { useSearchContext } from '../../ContextAPI/SearchHookContext';
 import { Status } from '../../ContextAPI/types.context';
@@ -48,7 +48,7 @@ const CardList: FC = () => {
     if (status === Status.Rejected) {
         return (
             <div>
-                <div>Oh no, there was a problem With your request</div>
+                <div>{error as string}</div>
                 <pre> {JSON.stringify(error, null, 2)}</pre>
             </div>
         );
@@ -68,8 +68,7 @@ const CardList: FC = () => {
 
             <MainContainer className="show-grid">
                 <FlexboxGrid justify="space-around">
-                    {gifResults &&
-                        gifResults.length > 0 &&
+                    {gifResults && gifResults.length > 0 ? (
                         gifResults.map(({ url, id }) => (
                             // <React.Fragment key={index}>
                             //     <Card url={url} />
@@ -87,7 +86,10 @@ const CardList: FC = () => {
                             >
                                 <Card url={url} id={id} />
                             </FlexboxGrid.Item>
-                        ))}
+                        ))
+                    ) : (
+                        <h5 style={{ color: 'var(--app-green)' }}>No GIF To Show</h5>
+                    )}
                 </FlexboxGrid>
             </MainContainer>
 
