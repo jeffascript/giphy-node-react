@@ -1,42 +1,11 @@
 import React, { useCallback, useState } from 'react';
-import { Icon, Input, InputGroup, Tooltip, Whisper } from 'rsuite';
-import styled from '@emotion/styled';
+import { Icon, InputGroup, Tooltip, Whisper } from 'rsuite';
 import { VscClearAll } from 'react-icons/vsc';
 import { useSearchContext } from '../../ContextAPI/SearchHookContext';
-import { ActionType } from '../../ContextAPI/Actions.context';
+
 import ActionButton from '../Button/ActionButton';
-// interface Props {}
-
-const FlexContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 1rem;
-    margin: 0 auto;
-`;
-
-const StyledInputGroup = styled(InputGroup)`
-    margin-bottom: 10px;
-    margin: 2rem;
-`;
-
-const StyledInput = styled(Input)`
-    /* border-radius: 50px;
-    padding: 0.8rem; */
-    border-radius: 12px;
-`;
-
-// const StyledIcon = styled(Icon)`
-//     /* padding: 1rem;
-//     margin-top: 0.4rem;
-//     &:hover,
-//     &:focus {
-//         padding: 0.5rem 1.3rem;
-//         margin: 0.3rem 1rem;
-//         background: transparent;
-//     } */
-// `;
+import { FlexContainer, StyledInputGroup, StyledInput } from './searchbox.styles';
+import { ActionType } from '../../ContextAPI/Actions.context';
 
 const SearchBox: React.FC = React.memo(() => {
     const { context, fetchWithHooks } = useSearchContext();
@@ -54,9 +23,6 @@ const SearchBox: React.FC = React.memo(() => {
         setState('');
         setResultString('');
     }, []);
-
-    // eslint-disable-next-line no-console
-    console.log('context state', context.state);
 
     return (
         <>

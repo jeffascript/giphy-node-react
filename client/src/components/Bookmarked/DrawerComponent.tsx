@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, ButtonToolbar, Drawer, Placeholder } from 'rsuite';
+import { Button, Drawer, Placeholder } from 'rsuite';
 import { Status } from '../../ContextAPI/types.context';
 import { RootState } from '../../redux/store';
 import BookmarkedGifs from './BookmarkedGifs';
@@ -15,17 +15,7 @@ const DrawerComponent: FC<Props> = ({ show, toggleDrawer }) => {
     const {
         allBookmarkState: { bookmarks, bookmarkError, LoadedCount, status },
     } = useSelector((state: RootState) => state);
-    // const initialState = {
-    //     show: false,
-    // };
-    // const [state, setState] = useState(initialState);
 
-    // const close = () => {
-    //     setState({ ...state, show: false });
-    // };
-    // const toggleDrawer = () => {
-    //     setState({ ...state, show: true });
-    // };
     if (status === Status.Pending) {
         return (
             <div>
@@ -33,15 +23,6 @@ const DrawerComponent: FC<Props> = ({ show, toggleDrawer }) => {
             </div>
         );
     }
-
-    // if (bookmarkError) {
-    //     return (
-    //         <div>
-    //             <div>Oh no, there was a problem With your request</div>
-    //             <pre> {JSON.stringify(bookmarkError, null, 2)}</pre>
-    //         </div>
-    //     );
-    // }
 
     return (
         <div>
@@ -63,8 +44,6 @@ const DrawerComponent: FC<Props> = ({ show, toggleDrawer }) => {
                             )}
                         </div>
                     </div>
-
-                    {/* <Paragraph /> */}
                 </Drawer.Body>
                 <Drawer.Footer>
                     <Button onClick={toggleDrawer} style={{ background: 'var(--app-green)' }}>

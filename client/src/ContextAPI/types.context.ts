@@ -18,3 +18,7 @@ export type InitialStateType = {
     gifResults: GifResults[];
     error: string | unknown | null;
 };
+
+export interface ICache {
+    searchQuery: GifResults[];
+}

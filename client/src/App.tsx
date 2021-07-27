@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import MyListIndicator from './components/Nav/MyListIndicator';
+import GalleryIndicator from './components/Nav/GalleryIndicator';
 import SearchBox from './components/Search/SearchBox';
 import CardList from './components/Media/CardList';
 import { SearchHookContextProvider } from './ContextAPI/SearchHookContext';
@@ -16,7 +16,7 @@ function App() {
             <SearchHookContextProvider>
                 <div className="container-fluid p-0 main-dark">
                     <MainWrapper>
-                        <MyListIndicator />
+                        <GalleryIndicator />
                         <StyledContainer>
                             <SearchBox />
                             <CardList />

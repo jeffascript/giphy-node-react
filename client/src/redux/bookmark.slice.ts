@@ -1,21 +1,10 @@
-import { createSlice, SerializedError } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { Bookmark, IBookmarkState } from './redux.types';
 import { Status } from '../ContextAPI/types.context';
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-param-reassign */
 
 import { AppDispatch, RootState } from './store';
-
-type Bookmark = {
-    id: string;
-    url: string;
-};
-
-interface IBookmarkState {
-    status: Status.Idle | Status.Resolved | Status.Rejected | Status.Pending;
-    LoadedCount: number;
-    bookmarks: Bookmark[];
-    bookmarkError?: string | null | SerializedError;
-}
 
 export const addBookmark = ({ url, id }: Bookmark) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {

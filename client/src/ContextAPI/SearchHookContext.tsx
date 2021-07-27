@@ -1,15 +1,11 @@
 import axios from 'axios';
-import React, { createContext, FC, ReactNode, useMemo, useReducer } from 'react';
+import React, { createContext, ReactNode, useMemo, useReducer } from 'react';
 import { ActionType, SearchActions } from './Actions.context';
-import { GifResults, InitialStateType } from './types.context';
+import { InitialStateType } from './types.context';
 
 interface IProps {
     searchQuery: string;
     children: ReactNode;
-}
-
-export interface ICache {
-    searchQuery: GifResults[];
 }
 
 const initialState = {
@@ -27,6 +23,10 @@ export const SearchContext = createContext<{
     state: initialState,
     dispatch: () => null,
 });
+
+/**
+ * SEARCH REDUCER
+ */
 
 export function searchReducer(state: InitialStateType, action: SearchActions) {
     switch (action.type) {
@@ -78,6 +78,9 @@ const SearchHookContextProvider = (props: Partial<IProps>) => {
     );
 };
 
+/**
+ * USE SEARCH CONTEXT HOOK
+ */
 const useSearchContext = () => {
     const context = React.useContext(SearchContext);
     if (context === undefined) {
@@ -126,44 +129,6 @@ const useSearchContext = () => {
         },
         [],
     );
-
-    // async function fetchWithQuery(searchQuery: string) {
-    //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //     const cache = useRef<any>({});
-    //     // eslint-disable-next-line no-console
-    //     console.log('cache', cache);
-    //     const url =
-    //         process.env.NODE_ENV === 'production'
-    //             ? `${process.env.REACT_APP_BASE_URL}`
-    //             : 'http://localhost:5001/gifs/search';
-    //     if (searchQuery.length < 3) {
-    //         context.dispatch({
-    //             type: ActionType.Error,
-    //             error: new Error('Search string should not be less than 3 characters'),
-    //         });
-    //         return;
-    //     }
-
-    //     context.dispatch({ type: ActionType.Start });
-    //     if (cache.current[searchQuery]) {
-    //         const data = cache.current[searchQuery];
-
-    //         context.dispatch({ type: ActionType.Success, payload: data });
-    //     } else {
-    //         try {
-    //             const dataInput = {
-    //                 searchString: searchQuery,
-    //             };
-    //             const response = await axios.post(url, dataInput);
-    //             const data = await response.data;
-    //             cache.current[searchQuery] = data;
-
-    //             context.dispatch({ type: ActionType.Success, payload: data });
-    //         } catch (error) {
-    //             context.dispatch({ type: ActionType.Success, payload: error.message });
-    //         }
-    //     }
-    // }
 
     return { fetchWithHooks, context };
 };
