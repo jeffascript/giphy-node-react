@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import { GifResults } from './State.types';
+import { GifResults } from './types.context';
 
 const erroMsg = new Error('Search string should not be less than 3 characters');
 
@@ -7,6 +7,7 @@ export enum ActionType {
     Error = 'error',
     Success = 'success',
     Start = 'start',
+    Clear = 'clear',
 }
 
 export interface Error {
@@ -23,4 +24,8 @@ export interface Start {
     type: ActionType.Start;
 }
 
-export type SearchActions = Error | Success | Start;
+export interface Clear {
+    type: ActionType.Clear;
+}
+
+export type SearchActions = Error | Success | Start | Clear;

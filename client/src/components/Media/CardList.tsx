@@ -4,6 +4,9 @@ import styled from '@emotion/styled';
 import { Col, FlexboxGrid, Grid, Row } from 'rsuite';
 import DATA from './data.json';
 import Card from './Card';
+import { useSearchContext } from '../../ContextAPI/SearchHookContext';
+import { Status } from '../../ContextAPI/types.context';
+import Skeleton from '../Loaders/Skeleton';
 // interface Props {
 
 // }
@@ -26,7 +29,31 @@ const MainContainer = styled.div`
     text-align: center;
 `;
 
-const CardList: FC = (props) => {
+const CardList: FC = () => {
+    const {
+        context: {
+            state: { status, gifResults, error },
+        },
+    } = useSearchContext();
+
+    if (status === Status.Pending) {
+        return (
+            <div>
+                <Skeleton />
+            </div>
+        );
+    }
+    if (status === Status.Idle) return null;
+
+    if (status === Status.Rejected) {
+        return (
+            <div>
+                <div>Oh no, there was a problem With your request</div>
+                <pre> {JSON.stringify(error, null, 2)}</pre>
+            </div>
+        );
+    }
+
     return (
         <>
             {/* <StyledContainer>
@@ -41,14 +68,14 @@ const CardList: FC = (props) => {
 
             <MainContainer className="show-grid">
                 <FlexboxGrid justify="space-around">
-                    {DATA &&
-                        DATA.length > 0 &&
-                        DATA?.map(({ url }, index) => (
+                    {gifResults &&
+                        gifResults.length > 0 &&
+                        gifResults.map(({ url, id }) => (
                             // <React.Fragment key={index}>
                             //     <Card url={url} />
                             // </React.Fragment>
                             <FlexboxGrid.Item
-                                key={index}
+                                key={id}
                                 componentClass={Col}
                                 colspan={10}
                                 md={7}
@@ -58,7 +85,7 @@ const CardList: FC = (props) => {
                                 xsOffset={2}
                                 className="ml-0"
                             >
-                                <Card url={url} />
+                                <Card url={url} id={id} />
                             </FlexboxGrid.Item>
                         ))}
                 </FlexboxGrid>

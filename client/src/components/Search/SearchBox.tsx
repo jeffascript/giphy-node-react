@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useCallback, useState } from 'react';
 import { Icon, Input, InputGroup, Tooltip, Whisper } from 'rsuite';
 import styled from '@emotion/styled';
-import { ICache, useSearchContext } from '../../ContextAPI/SearchHookContext';
-import { ActionType } from '../../ContextAPI/Actions';
-
+import { VscClearAll } from 'react-icons/vsc';
+import { useSearchContext } from '../../ContextAPI/SearchHookContext';
+import { ActionType } from '../../ContextAPI/Actions.context';
+import ActionButton from '../Button/ActionButton';
 // interface Props {}
 
 const FlexContainer = styled.div`
@@ -39,31 +39,53 @@ const StyledInput = styled(Input)`
 // `;
 
 const SearchBox: React.FC = React.memo(() => {
-    const { context, fetchWithQuery } = useSearchContext();
+    const { context, fetchWithHooks } = useSearchContext();
 
     const [state, setState] = useState<string>('');
+    const [resultString, setResultString] = useState<string>('');
 
-    const getResult = async () => {
-        fetchWithQuery(state);
+    const fetchGifs = async () => {
+        fetchWithHooks(state);
+        setResultString(state);
     };
 
+    const clearData = useCallback(() => {
+        context.dispatch({ type: ActionType.Clear });
+        setState('');
+        setResultString('');
+    }, []);
+
+    // eslint-disable-next-line no-console
     console.log('context state', context.state);
 
     return (
-        <FlexContainer>
-            <Whisper
-                trigger="focus"
-                speaker={<Tooltip>Minimum of 3 letters Required</Tooltip>}
-                placement={'bottomStart'}
-            >
-                <StyledInputGroup inside={true}>
-                    <StyledInput onChange={(e) => setState(e)} value={state} />
-                    <InputGroup.Button onClick={getResult}>
-                        <Icon icon="search" />
-                    </InputGroup.Button>
-                </StyledInputGroup>
-            </Whisper>
-        </FlexContainer>
+        <>
+            <FlexContainer>
+                <Whisper
+                    trigger="focus"
+                    speaker={<Tooltip>{state.length < 2 ? 'Minimum of 3 letters Required' : null}</Tooltip>}
+                    placement={'bottomStart'}
+                >
+                    <StyledInputGroup inside={true}>
+                        <StyledInput onChange={(e) => setState(e)} value={state} onPressEnter={fetchGifs} />
+                        <InputGroup.Button onClick={fetchGifs}>
+                            <Icon icon="search" />
+                        </InputGroup.Button>
+                    </StyledInputGroup>
+                </Whisper>
+                <ActionButton
+                    className="d-flex text-center justify-content-center align-items-center m-auto"
+                    onClick={clearData}
+                >
+                    <VscClearAll size={22} /> &nbsp; <span>reset</span>
+                </ActionButton>
+            </FlexContainer>
+            {resultString && (
+                <div className="d-flex text-center justify-content-center align-items-center  mb-5">
+                    Result for: &nbsp; <h3 style={{ color: 'var(--app-green)', fontWeight: 'bold' }}>{resultString}</h3>
+                </div>
+            )}
+        </>
     );
 });
 

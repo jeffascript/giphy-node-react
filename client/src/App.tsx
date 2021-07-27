@@ -18,6 +18,7 @@ const StyledWrapper = styled(Container)`
 const StyledContainer = styled.div`
     max-width: var(--content-width);
     margin: 0 auto;
+    width: 100%;
 `;
 
 const MainWrapper: React.FC = ({ children, ...props }) => {

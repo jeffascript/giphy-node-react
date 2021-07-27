@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { createContext, FC, ReactNode, useEffect, useMemo, useReducer } from 'react';
-import { ActionType, SearchActions } from './Actions';
-import { GifResults, InitialStateType } from './State.types';
+import React, { createContext, FC, ReactNode, useMemo, useReducer } from 'react';
+import { ActionType, SearchActions } from './Actions.context';
+import { GifResults, InitialStateType } from './types.context';
 
 interface IProps {
     searchQuery: string;
@@ -50,6 +50,13 @@ export function searchReducer(state: InitialStateType, action: SearchActions) {
                 status: 'pending',
             };
         }
+
+        case ActionType.Clear: {
+            return {
+                ...initialState,
+            };
+        }
+
         default: {
             throw new Error(`Unhandled action type`);
         }
@@ -77,7 +84,7 @@ const useSearchContext = () => {
         throw new Error('useCount must be used within a CountProvider');
     }
     const cache = new Map(); // for temporary cache storage and memoise the function to retain the data
-    const fetchWithQuery = useMemo(
+    const fetchWithHooks = useMemo(
         () => async (searchQuery: string) => {
             // eslint-disable-next-line no-console
             const url =
@@ -96,6 +103,7 @@ const useSearchContext = () => {
             context.dispatch({ type: ActionType.Start });
             if (cache.has(searchQuery)) {
                 const data = cache.get(searchQuery);
+                // eslint-disable-next-line no-console
                 console.log('cache gotten DATA', data);
                 context.dispatch({ type: ActionType.Success, payload: data });
             } else {
@@ -105,6 +113,7 @@ const useSearchContext = () => {
                     };
 
                     const response = await axios.post(url, dataInput);
+                    // eslint-disable-next-line no-console
                     console.log('fetching DATA', response);
                     const data = await response.data;
                     cache.set(searchQuery, data);
@@ -156,7 +165,7 @@ const useSearchContext = () => {
     //     }
     // }
 
-    return { fetchWithQuery, context };
+    return { fetchWithHooks, context };
 };
 
 export { useSearchContext, SearchHookProvider };

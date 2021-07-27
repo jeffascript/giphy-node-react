@@ -1,16 +1,27 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { FaBookmark, FaLink } from 'react-icons/fa';
-import { Button, ButtonToolbar, Drawer, Placeholder } from 'rsuite';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert, Button, ButtonToolbar, Drawer, Placeholder } from 'rsuite';
+import { GifResults, Status } from '../../ContextAPI/types.context';
 import ActionButton from '../Button/ActionButton';
-import DATA from '../Media/data.json';
+
+import { removeBookmark } from '../../redux/bookmark.slice';
+import { RootState } from '../../redux/store';
 
 const { Paragraph } = Placeholder;
-// interface Props {
-//     show: boolean;
-//     toggleDrawer: () => void;
-// }
+interface IProps {
+    // show: boolean;
+    // toggleDrawer: () => void;
+    // savedGifs: Partial<GifResults>;
+    url: string;
+    id: string;
+}
 
-const BookmarkedGifs: FC = (props) => {
+const BookmarkedGifs: FC<IProps> = ({ url, id }) => {
+    const {
+        allBookmarkState: { bookmarks, bookmarkError, LoadedCount, status },
+    } = useSelector((state: RootState) => state);
+    const dispatch = useDispatch();
     // const initialState = {
     //     show: false,
     // };
@@ -22,38 +33,34 @@ const BookmarkedGifs: FC = (props) => {
     // const toggleDrawer = () => {
     //     setState({ ...state, show: true });
     // };
-
+    const handleRemoveBookmark = useCallback((args: IProps) => {
+        dispatch(removeBookmark(args));
+        Alert.success('GIF successfully removed from Bookmarks!');
+    }, []);
     return (
         <>
-            <div className="container overflow-auto">
-                <div className="row p-0 ">
-                    {DATA && DATA.length > 0 ? (
-                        DATA.map(({ url }, index) => (
-                            <React.Fragment key={index}>
-                                <div className="col-4 mb-3">
-                                    <img src={url} style={{ objectFit: 'cover', width: '80px', height: '45px' }} />
-                                </div>
-                                <div
-                                    className="col-8   text-center mb-3 align-self-center"
-                                    style={{ color: 'var(--dark)', fontWeight: 'bold' }}
-                                >
-                                    <div className="container">
-                                        <div className="row">
-                                            <ActionButton className="col ">
-                                                <FaLink /> <br /> Copy
-                                            </ActionButton>
+            <div className="col-4 mb-3">
+                <img src={url} style={{ objectFit: 'cover', width: '80px', height: '45px' }} />
+            </div>
+            <div
+                className="col-8   text-center mb-3 align-self-center"
+                style={{ color: 'var(--dark)', fontWeight: 'bold' }}
+            >
+                <div className="container">
+                    <div className="row">
+                        <ActionButton className="col ">
+                            <FaLink /> <br /> Copy
+                        </ActionButton>
 
-                                            <ActionButton className="col ">
-                                                <FaBookmark /> <br /> UnBookmark
-                                            </ActionButton>
-                                        </div>
-                                    </div>
-                                </div>
-                            </React.Fragment>
-                        ))
-                    ) : (
-                        <h5 style={{ color: 'var(--dark)' }}>No GIFS Bookmarked</h5>
-                    )}
+                        <ActionButton
+                            className="col "
+                            onClick={() => {
+                                handleRemoveBookmark({ url, id });
+                            }}
+                        >
+                            <FaBookmark /> <br /> UnBookmark
+                        </ActionButton>
+                    </div>
                 </div>
             </div>
         </>

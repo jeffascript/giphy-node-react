@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { FaBookmark, FaLink } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from 'rsuite';
 import ActionButton from '../Button/ActionButton';
+import { addBookmark } from '../../redux/bookmark.slice';
+import { RootState } from '../../redux/store';
+import { Status } from '../../ContextAPI/types.context';
 
 const StyledImgContainer = styled.div`
     margin: 10px;
@@ -159,12 +164,24 @@ const StyledContainer = styled.div`
     }
 `;
 
-interface Props {
+interface ICardProps {
     url: string;
+    id: string;
 }
 
-const Card: React.FC<Props> = (props) => {
+const Card: React.FC<ICardProps> = (props) => {
     const [hovered, setHovered] = useState<boolean>(false);
+    const {
+        allBookmarkState: { bookmarks, bookmarkError, LoadedCount, status },
+    } = useSelector((state: RootState) => state);
+
+    const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
+
+    useEffect(() => {
+        setBookmarkedIds(bookmarks.map((gif) => gif.id));
+    }, [LoadedCount]);
+
+    const dispatch = useDispatch();
 
     const onMouseEnter = (e: React.MouseEvent) => {
         setHovered(true);
@@ -172,6 +189,21 @@ const Card: React.FC<Props> = (props) => {
 
     const onMouseLeave = (e: React.MouseEvent) => {
         setHovered(false);
+    };
+
+    const handleBookmarkUIBehavior = (id: string) => {
+        const found = bookmarkedIds.some((el) => el === id);
+        if (found) {
+            Alert.error((bookmarkError as string) ?? 'GIF Already Bookmarked');
+        } else {
+            Alert.success('GIF Bookmarked successfully!');
+        }
+    };
+
+    const handleAddBookmark = (args: ICardProps) => {
+        dispatch(addBookmark(args));
+        setBookmarkedIds([...bookmarkedIds, args.id]);
+        handleBookmarkUIBehavior(args.id);
     };
 
     return (
@@ -195,12 +227,14 @@ const Card: React.FC<Props> = (props) => {
                         <FaLink />y
                     </ActionButton>
 
-                    <ActionButton className="bookmark">
+                    <ActionButton className="bookmark" onClick={() => handleAddBookmark(props)}>
                         Bookm
                         <FaBookmark />
                         rk
                     </ActionButton>
                 </div>
+
+                {}
             </StyledContainer>
         </>
     );
