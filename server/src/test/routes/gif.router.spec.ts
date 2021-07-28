@@ -31,15 +31,17 @@ import app from '../../app';
 
 // const numLessThanThree = Math.floor(Math.random() * 3);
 
-function letterLessThanThree() {
-    const numLessThanThree: number = Math.floor(Math.random() * 3);
+export function letterLessThanThree() {
+    const numLessThanThree = Math.floor(Math.random() * 3);
     const threeToThreeHun = randomWords({ min: 0, max: 2 });
-    const oneWord: string = threeToThreeHun[Math.floor(Math.random() * threeToThreeHun.length)];
+    const oneWord = threeToThreeHun[Math.floor(Math.random() * threeToThreeHun.length)];
     const lessThanThreewords = oneWord.slice(numLessThanThree, 3);
     return lessThanThreewords;
 }
 
-function numGreaterThanThree() {
+const inputBadData = letterLessThanThree();
+
+export function letterGreaterThanThree() {
     const minThreeNum = randomWords({ min: 3, max: 10 });
     const data = minThreeNum[Math.floor(Math.random() * minThreeNum.length)];
     console.log(data);
@@ -48,13 +50,12 @@ function numGreaterThanThree() {
 
 describe('POST /gifs/search', () => {
     it('Response fails if the searchString is less than 3 characters ', async () => {
-        const input = letterLessThanThree();
-
         const response = await request(app).post('/gifs/search').send({
-            searchString: input,
+            searchString: 'aa',
         });
         expect(response.status).to.eql(400);
         expect(response.body.message[0].msg).to.eql('The search string must be a minimum of 3 characters');
+
         // expect(response.body.message.map((e: any) => e.msg)[0]).to.eql(
         //     'The search string must be a minimum of 3 characters',
         // );
@@ -65,7 +66,7 @@ describe('POST /gifs/search', () => {
     });
 
     it('with search string between 3 and 300 returns a valid response collection with  url,id,width and height ', async () => {
-        const input = numGreaterThanThree();
+        const input = letterGreaterThanThree();
 
         const response = await request(app).post('/gifs/search').send({
             searchString: input,

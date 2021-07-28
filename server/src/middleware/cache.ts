@@ -16,3 +16,7 @@ export const redisCacheHandler = async (req: Request, res: Response, next: NextF
     console.log('Not from from Cache :( ');
     next();
 };
+
+export const middleware = {
+    redisCacheHandler,
+};

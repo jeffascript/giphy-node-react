@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import { GifResponse, ISearchQuery, IError } from '../model';
+import { GifResponse, ISearchQuery, IError, APIFetchResponse } from '../model';
 import FetchRequest from '../utils/axios';
 import { redisClient, cacheExpiration } from '../utils/redis';
 
@@ -10,13 +10,11 @@ interface ISearch {
 }
 
 class SearchController implements ISearch {
-    private formatResult(dataArr: any): GifResponse[] {
-        const data = dataArr.data.map(
-            (datum: { id: Partial<GifResponse>; images: { downsized_medium: Partial<GifResponse> } }) => ({
-                id: datum.id,
-                ...datum.images.downsized_medium,
-            }),
-        );
+    private formatResult(dataArr: APIFetchResponse): GifResponse[] {
+        const data = dataArr.data.map((datum) => ({
+            id: datum.id,
+            ...datum.images.downsized_medium,
+        }));
         return data as GifResponse[];
     }
 
@@ -25,7 +23,7 @@ class SearchController implements ISearch {
         if (data.errCode) {
             return data as IError;
         }
-        const formattedResp = this.formatResult(data);
+        const formattedResp = this.formatResult(data as APIFetchResponse);
         const cacheKey = JSON.stringify(searchString);
         redisClient.set(cacheKey, JSON.stringify(formattedResp), 'EX', cacheExpiration);
         return formattedResp;
