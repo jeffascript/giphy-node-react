@@ -1,7 +1,8 @@
+/* eslint-disable no-irregular-whitespace */
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { render, screen, fireEvent, cleanup, getByTestId, queryByTestId } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, getByTestId, queryByTestId, waitFor } from '@testing-library/react';
 
 import renderer from 'react-test-renderer';
 import Enzyme, { shallow } from 'enzyme';
@@ -22,14 +23,13 @@ it('SearchBar Component loads without any string on the Result String', () => {
     const text = wrapper.find({ prop: 'data-testid' }).first();
     expect(text).toMatchObject({});
 });
+
 afterEach(cleanup);
 
 it('SearchBar Component loads without any string on the Result String', () => {
     const { container } = render(<SearchBox />);
     const input = screen.getByRole('textbox');
     expect(input.textContent).toEqual('');
-    // expect(countValue.textContent).toThrowError();
-    // expect(countValue.textContent).toBe('');
 });
 
 const changeHandler = jest.fn();
@@ -53,9 +53,9 @@ test('Data input can be cleared', () => {
     const textInput = screen.getByRole('textbox');
     expect(textInput).toHaveValue(state);
     fireEvent.change(textInput, { target: { value: 'world' } });
-    // expect(textInput).toHaveValue(state);
+
     fireEvent.click(clearBtn);
-    // fireEvent.change(textInput, { target: { value: 'world' } });
+
     expect(clearDataHandler).toHaveBeenCalled();
     rerender(
         <Input state={''} fetchGifs={fetchGifsHandler} clearData={clearDataHandler} handleOnchange={changeHandler} />,
@@ -63,11 +63,66 @@ test('Data input can be cleared', () => {
     expect(textInput).toHaveValue('');
 });
 
-test('Click on Submit button and the String response reacts accordingly', () => {
+it('Matches Inline snapshot', () => {
     const { rerender, asFragment, container, getByText } = render(<SearchBox />);
+    expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div
+            class="css-3l4gaw"
+          >
+            <div
+              class="rs-input-group css-1fesyhj rs-input-group-inside"
+            >
+              <input
+                class="rs-input css-1rxzna3 rs-input-lg"
+                placeholder="Start typing ... e.g: happy"
+                type="text"
+                value=""
+              />
+              <a
+                class="rs-btn rs-btn-default rs-input-group-btn"
+              >
+                <i
+                  class="rs-icon rs-icon-search"
+                />
+                <span
+                  class="rs-ripple-pond"
+                >
+                  <span
+                    class="rs-ripple"
+                  />
+                </span>
+              </a>
+            </div>
+            <div
+              class="d-flex text-center justify-content-center align-items-center m-auto"
+              style="cursor: pointer;"
+            >
+              <svg
+                fill="currentColor"
+                height="22"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 16 16"
+                width="22"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 12.6l.7.7 1.6-1.6 1.6 1.6.8-.7L13 11l1.7-1.6-.8-.8-1.6 1.7-1.6-1.7-.7.8 1.6 1.6-1.6 1.6zM1 4h14V3H1v1zm0 3h14V6H1v1zm8 2.5V9H1v1h8v-.5zM9 13v-1H1v1h8z"
+                />
+              </svg>
+                 
+              <span>
+                reset
+              </span>
+            </div>
+          </div>
+        </DocumentFragment>
+    `);
+});
 
-    // const clearBtn = screen.getByText('cleardata');
-    // console.log(clearBtn);
+test('Click on Submit button and the String response reacts accordingly', async () => {
+    const { rerender, asFragment, container, getByText } = render(<SearchBox />);
 
     expect(screen.queryByText('Result for:')).toBe(null);
     const btn = container.querySelector('a.rs-btn.rs-btn-default.rs-input-group-btn') || screen.getByRole('button');
@@ -77,55 +132,22 @@ test('Click on Submit button and the String response reacts accordingly', () => 
     expect(textInput).toHaveValue(newValue);
     fireEvent.submit(textInput);
     fireEvent.click(btn);
-    // const showSearchedString = getByText(newValue) || getByTestId(container, 'resultString');
+    rerender(<SearchBox />);
+
     expect(screen.queryByText('Result for:')).not.toBeInTheDocument();
-
-    // expect(`<h3 style="color: var(--app-green); font-weight: bold;" xpath="1">${newValue}</h3>`).toBeInTheDocument();
-
-    // expect(showSearchedString).toHaveValue(newValue);
-
-    // const textInput = screen.getByRole('textbox');
-    // expect(textInput).toHaveValue(state);
-    // fireEvent.change(textInput, { target: { value: 'world' } });
-    // // expect(textInput).toHaveValue(state);
-    // fireEvent.click(clearBtn);
-    // // fireEvent.change(textInput, { target: { value: 'world' } });
-    // expect(clearDataHandler).toHaveBeenCalled();
-    // rerender(
-    //     <Input state={''} fetchGifs={fetchGifsHandler} clearData={clearDataHandler} handleOnchange={changeHandler} />,
-    // );
-    // expect(textInput).toHaveValue('');
+    await waitFor(() => {
+        expect(screen.queryByText('Result for:')).not.toBeInTheDocument();
+    });
 });
 
-// it("Submitting a name via the input field changes the name state value", () => {
-//     const { container, rerender } = render(<App />);
-//     const nameValue = getByTestId(container, "namevalue");
-//     const inputName = getByTestId(container, "inputName");
-//     const submitButton = getByTestId(container, "submitRefButton");
-//     const newName = "Ben";
-//     fireEvent.change(inputName, { target: { value: newName } });
-//     fireEvent.click(submitButton);
-//     expect(nameValue.textContent).toEqual(newName);
-//     rerender(<App />);
-//     expect(window.localStorage.getItem("name")).toBe(newName);
-//   });
+it('renders < SearchBox/> without crashing  ', () => {
+    const { container } = render(<SearchBox />);
+    const searchPlaceholder = 'Start typing ... e.g: happy';
 
-// it('SearchBar Component loads without any string on the Result String', () => {
-//     const { container } = render(<SearchBox />);
+    expect(screen.getAllByRole('textbox')).toHaveLength(1);
+});
 
-//     const countValue = getByTestId(container, 'resultString');
-//     expect(countValue.textContent).toThrowError();
-//     // expect(countValue.textContent).toBe('');
-// });
-
-// it('Increment and decrement buttons work', () => {
-//     const { container } = render(<App />);
-//     const countValue = getByTestId(container, 'countvalue');
-//     const increment = getByTestId(container, 'incrementButton');
-//     const decrement = getByTestId(container, 'decrementButton');
-//     expect(countValue.textContent).toBe('0');
-//     fireEvent.click(increment);
-//     expect(countValue.textContent).toBe('1');
-//     fireEvent.click(decrement);
-//     expect(countValue.textContent).toBe('0');
-// });
+it('Matches snapshot', () => {
+    const tree = renderer.create(<SearchBox />);
+    expect(tree).toMatchSnapshot();
+});

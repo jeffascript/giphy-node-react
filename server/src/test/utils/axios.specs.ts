@@ -2,7 +2,7 @@ import moxios from 'moxios';
 import sinon from 'sinon';
 import faker from 'faker';
 import { expect } from 'chai';
-// import axios from 'axios';
+
 import { equal } from 'assert';
 import randomWords from 'random-words';
 import AxioFetch from '../../utils/axios';
@@ -71,11 +71,6 @@ describe('FETCH', () => {
         it('The Service for Fetch can return reject with errors', async () => {
             const expectedResponse = jsonResponse;
 
-            // moxios.wait(() => {
-            //     const request = moxios.requests.mostRecent();
-            //     request.respondWith({ status: 400, response: expectedResponse });
-            // });
-
             const errResp = {
                 status: 422,
                 response: { message: 'problem' },
@@ -85,16 +80,12 @@ describe('FETCH', () => {
                 request.respondWith(errResp);
             });
 
-            // if (error.response) {
-            //     return { errCode: error.response.status, ...error.response.data } as IError;
-            // }
-
             const searchString = letterGreaterThanThree();
             const key = faker.datatype.uuid();
             console.log(key, searchString);
             const result = await AxioFetch.searchWithParams({ searchString, apiKey: key });
             console.log(result);
-            // expect(result.errorCode).to.equal(errResp.status);
+
             expect(result).to.not.equal(expectedResponse);
         });
     });

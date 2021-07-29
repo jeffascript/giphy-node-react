@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+
 import { Input } from '../Input';
 
 const changeHandler = jest.fn();
@@ -11,7 +11,6 @@ const state = 'hello';
 
 test('renders the text input', () => {
     const { rerender, asFragment } = render(
-        // <Input onChange={changeHandler} value={'option 2'} options={options} label={'My Label'} idPrefix={'myTest'} />,
         <Input
             state={state}
             fetchGifs={fetchGifsHandler}

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Matches snapshot 1`] = `
+Array [
+  <div
+    className="css-3l4gaw"
+  >
+    <div
+      className="rs-input-group css-1fesyhj rs-input-group-inside"
+      onBlur={[Function]}
+      onFocus={[Function]}
+    >
+      <input
+        className="rs-input css-1rxzna3 rs-input-lg"
+        id={null}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Start typing ... e.g: happy"
+        type="text"
+        value=""
+      />
+      <a
+        className="rs-btn rs-btn-default rs-input-group-btn"
+        onClick={[Function]}
+      >
+        <i
+          className="rs-icon rs-icon-search"
+        />
+        <span
+          className="rs-ripple-pond"
+        >
+          <span
+            className="rs-ripple"
+            style={Object {}}
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      className="d-flex text-center justify-content-center align-items-center m-auto"
+      onClick={[Function]}
+      style={
+        Object {
+          "cursor": "pointer",
+        }
+      }
+    >
+      <svg
+        fill="currentColor"
+        height={22}
+        stroke="currentColor"
+        strokeWidth="0"
+        style={
+          Object {
+            "color": undefined,
+          }
+        }
+        viewBox="0 0 16 16"
+        width={22}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 12.6l.7.7 1.6-1.6 1.6 1.6.8-.7L13 11l1.7-1.6-.8-.8-1.6 1.7-1.6-1.7-.7.8 1.6 1.6-1.6 1.6zM1 4h14V3H1v1zm0 3h14V6H1v1zm8 2.5V9H1v1h8v-.5zM9 13v-1H1v1h8z"
+        />
+      </svg>
+         
+      <span>
+        reset
+      </span>
+    </div>
+  </div>,
+  "",
+]
+`;
