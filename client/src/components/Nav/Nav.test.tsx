@@ -3,8 +3,8 @@ import Adapter from 'enzyme-adapter-react-16';
 import renderer from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import ServiceListingScreen from './App';
-import serviceReducer from './redux/bookmark.slice';
+import ServiceListingScreen from './GalleryIndicator';
+import serviceReducer from '../../redux/bookmark.slice';
 
 const store = createStore(serviceReducer);
 configure({ adapter: new Adapter() });
@@ -18,7 +18,6 @@ describe('Screen/ServiceListingScreen', () => {
                 <ServiceListingScreen />
             </Provider>,
         );
-
         // const tree = renderer(wrapper).toJSON();
         // expect(tree).toMatchSnapshot();
     });
