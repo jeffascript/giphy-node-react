@@ -20,9 +20,11 @@ The web app is bootstrapped using `create-react-app`.
 
 ## DEMO
 
-Click on the Link below to watch the DEMO
+Click on the Links below to watch the DEMO for all the functionalities implemented.
 
-https://
+PART A: https://www.loom.com/share/3ee415f15dcf485b82dd8c7e490780b1
+
+PART B: https://www.loom.com/share/864d0034c02d46299ac6fb64c1f5ffbc
 
 ## Run the App
 
