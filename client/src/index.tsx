@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import 'rsuite/dist/styles/rsuite-default.css';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
