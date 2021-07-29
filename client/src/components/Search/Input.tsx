@@ -7,6 +7,7 @@ import { FlexContainer, StyledInputGroup, StyledInput } from './searchbox.styles
 interface Input {
     state: string;
     handleOnchange: (e: string) => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchGifs: (e: any, data: string) => void;
     clearData: () => void;
 }
@@ -17,7 +18,7 @@ export const Input: React.FC<Input> = ({ state, handleOnchange, fetchGifs, clear
             <FlexContainer>
                 <Whisper
                     trigger="focus"
-                    speaker={<Tooltip>{state?.length < 2 ? 'Minimum of 3 letters Required' : null}</Tooltip>}
+                    speaker={<Tooltip>{state?.length < 3 ? 'Minimum of 3 letters Required' : null}</Tooltip>}
                     placement={'bottomStart'}
                 >
                     <StyledInputGroup inside={true}>

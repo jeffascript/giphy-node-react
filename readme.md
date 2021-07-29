@@ -1,94 +1,100 @@
-## Github Searcher
+## GIF SEARCH APP
 
-This App is built using the following stack -
-
-**Frontend**
-The app was bootstrapped using `create-react-app`.
+**Client**
+The web app is bootstrapped using `create-react-app`.
 
 - Typescript
-- React
-- Redux (for state management)
-- Redux-persist (to persist the cache solution)
 
-**Backend**
+- React ( ContextAPI for temporary caching and Hook for Clipboard copy/paste events )
+
+- Redux/toolkit (newest redux library from redux team)
+
+- Redux-persist (to persist the bookmarked GIFs for later use)
+
+**Server**
 
 - Typescript
 - Node
 - Express
-- Redis (for caching)
+- Redis (caching solution)
 
 ## DEMO
 
-Click on the image below to watch the setup and demo video -
+Click on the Link below to watch the DEMO
 
-[![DEMO Video](https://img.youtube.com/vi/bGLvrmLQocE/0.jpg)](https://www.youtube.com/watch?v=bGLvrmLQocE)
+https://
 
-## Get up and running...
+## Run the App
 
-The whole app is dockerized to prevent dependency conflicts and can be easily started in any system with docker installed.
+App is dockerized. Hence, Docker needs to be up and running on the system.
 
-After cloning the repo, duplicate the file `docker-compose.dist.yml` to `docker-compose.yml` and then inside the file, add the [Github Personal token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) to enable api calls.
-
-After adding this token, in the root of the app directory, just type the command
+After cloning the repo:
 
 ```sh
 docker-compose up --build
 ```
 
-This will build the images with all the necessary dependencies and create all the necessary networks.
+This will build the docker images and start the app.
+
+> If you faceany issue after running `docker-compose up` command, please kill the server and restart again. Prolly, compiller issues from TS.
 
 ### Ports
 
-The app can be accessed at `http://localhost:3000`. The backend is exposed on the port `3001` and there is a proxy added in the `package.json` to prevent any CORS issues for the demo purposes.
+The app can be accessed at `http://localhost:3000`. The backend is exposed on the port `5001`.
 
-> If the first time after running `docker-compose up` command, you face any issues, please kill the server and restart again. Sometimes these kind of issues happen due to typescript compiler.
+### Architectural flow
 
-### System Architecture
+## Client
 
-#### Frontend
+#### 1. Search & Cache functionality
 
-As a user when you type your search query in the search field, the app first looks for the results stored in the **cache**. If there is no relevant results in cache, the app makes and api call to the backend. Once the **search results** are received, it does two things -
+As a user, when you type in a search string in the search field, the app first checks for the results stored in the temporary **cache**, else it makes an API call to the server to fetch the results, as well as cache the results for that session.
 
-1. Updates the `cache` which is then persisted to localstorage.
-2. Updates the `state` to display the results on the UI.
+For the purposes of caching, the search query is stringified and used as the cache key. If the user makes the same search again within the current session, the `ui state` is updated from the temporary cache thus avoiding any unnecessary calls to the server.
 
-For the purposes of caching, the search query is stringified and used as the cache key. Next time, the user make the same search again, the `ui state` is updated from the cache thus avoiding any unnecessary calls to the backend.
+> Reason for the temporary cache with `ContextAPI` here is due to the fact that we are still caching the results in the server with REDIS, hence, api calls will have low latency time to refetch data based on cached search string.
 
-The cache is persisted in the local storage, so even if the app is refreshed, the cache records are maintained.
+The inputed search string is expected to be more than `3` letters, else no result or api calls would be made.
 
-#### Backend
+#### 2. Bookmark Functionality
 
-Once the backend receives a request, it first checks for the results in its cache. This cache is maintained in **redis** database. If the results are not found in the cache, it then calls the `github api` for the search results.
+Each Gif has the possibilty to be bookmarked or copied upon hover.
+
+If a user clicks on `bookmark` on a hovered Gif, the Gif is saved on the `gallery pane` and the `badge count` gets updated accordingly. On the Gallery Pane, user has the possibility of `unbookmarking` the Gifs that was previously bookmarked.
+
+> The bookmarking logic was implemented with `Redux` and stored on the local storage for persistence even after a session is been completed by a user. The result is persisted in the local storage, so that even if the app is refreshed, the redux records are maintained.
+
+#### 2. Copy to Clipboard Functionality
+
+If a user clicks on `copy` on a hovered Gif, the url of the Gif is copied and formatted for use on a Markdown Text editor.
+
+> Playground: User can paste here to see the copied Gif https://markdown-it.github.io/
+
+#### Server
+
+Once the backend receives a request, it first checks for the results in its cache. This cache is maintained in **Redis** database. If the results are not found in the cache, it then calls the `gif api` for the search results.
 
 After the results are received, it first formats the results in the necessary format which is easier for the frontend to consume. It then caches this formatted data to the `redis store` and returns the result to the client.
 
-The results are cached in the `redis` store for upto 2 hours. Once again the key used for storing the cache is the stringified search query.
-
-#### Error Handling
-
-In the backend, error handling is done via a custom Error handling middleware. Each type of error is handled by a different class of error which is extended from an inbuilt `Error()` class.
-
-In the frontend, if there are any error from api calls, these errors are updated in a seperate piece in the application state - called `status`. This state is then checked to show or hide the errors on the UI.
+The results are cached in the `redis` store for upto **2 days**. Once again the key used for storing the cache is the stringified search string/query.
 
 #### APIs
 
 Frontend only needs to call a single api regardless of the entity type you are searching for -
 
-endpoint - `/api/search`
+endpoint - `/api/gifs`
 method - `POST`
 body -
 
 ```typescript
 {
-  "query" : string;
-  "entity": string<'users' | 'repositories'>;
+  "searchString" : string;
+
 }
 ```
 
-The data is validated in the backend and if any of the required fields are missing, it throws an error.
+The data is validated in the server with `express-validator` and if any of the required fields are missing, it throws an error. Also, the string should be more than 3 letters to fetch results.
 
 #### Things to add / improve
 
-- Write Unit tests for both frontend and backend.
-- Create Swagger documentation for the endpoints.
-- Add a way to clear cache from the UI.
+- Add more unit tests for both client and server.

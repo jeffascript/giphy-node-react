@@ -9,9 +9,17 @@ const SearchBox: React.FC = React.memo(() => {
     const [state, setState] = useState<string>('');
     const [resultString, setResultString] = useState<string>('');
 
+    const clearData = useCallback(() => {
+        context.dispatch({ type: ActionType.Clear });
+        setState('');
+        setResultString('');
+    }, []);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fetchGifs = useCallback(async (e: React.FormEvent | React.KeyboardEvent | any, data: string) => {
         e.preventDefault();
-        if (!data) {
+        if (!data || data.length < 3) {
+            setState('');
             return;
         }
         await fetchWithHooks(data);
@@ -20,12 +28,6 @@ const SearchBox: React.FC = React.memo(() => {
 
     const handleOnchange = useCallback((e: string) => {
         setState(e);
-    }, []);
-
-    const clearData = useCallback(() => {
-        context.dispatch({ type: ActionType.Clear });
-        setState('');
-        setResultString('');
     }, []);
 
     return (

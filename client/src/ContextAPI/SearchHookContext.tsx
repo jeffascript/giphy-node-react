@@ -92,8 +92,8 @@ const useSearchContext = () => {
             // eslint-disable-next-line no-console
             const url =
                 process.env.NODE_ENV === 'production'
-                    ? `${process.env.REACT_APP_BASE_URL}`
-                    : 'http://localhost:5001/gifs/search';
+                    ? `${process.env.REACT_APP_BASE_URL}/api/gifs`
+                    : 'http://localhost:5001/api/gifs';
 
             if (searchQuery.length < 3) {
                 context.dispatch({

@@ -22,6 +22,7 @@ services:
     stdin_open: true
     environment:
     - GIF_AUTH_KEY=GK8dKpRS4sSv9ObCFc7aNMTBtjObGEIH #keeping it open here since we are on a private repo
+    - REDIS_URL=redis://redis:6379
     depends_on:
     - redis
     networks:

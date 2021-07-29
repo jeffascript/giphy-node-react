@@ -48,9 +48,9 @@ export function letterGreaterThanThree() {
     return data;
 }
 
-describe('POST /gifs/search', () => {
+describe('POST /api/gifs', () => {
     it('Response fails if the searchString is less than 3 characters ', async () => {
-        const response = await request(app).post('/gifs/search').send({
+        const response = await request(app).post('/api/gifs').send({
             searchString: 'aa',
         });
         expect(response.status).to.eql(400);
