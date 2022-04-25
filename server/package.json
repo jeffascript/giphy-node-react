@@ -4,10 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "local": "ts-node server.ts",
-        "dev1": "ts-node-dev --respawn --pretty --transpile-only ./src/server.ts",
+        "local": "ts-node index.ts",
+        "dev1": "ts-node-dev --respawn --pretty --transpile-only ./src/index.ts",
         "start": "node build/index.js",
-        "dev": "nodemon --exec 'ts-node' ./src/index.ts",
+        "dev": "nodemon -r dotenv/config ./src/index.ts",
         "clean": "rm -rf build",
         "build": "npm run-script clean && tsc",
         "build_start": "npm run-script build && npm run-script start",

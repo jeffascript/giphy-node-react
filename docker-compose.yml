@@ -7,7 +7,6 @@ services:
     container_name: client
     stdin_open: true
     restart: always
-    stdin_open: false
     networks:
     - react-express
     depends_on:
@@ -21,8 +20,10 @@ services:
     - 5001:5001
     stdin_open: true
     environment:
-    - GIF_AUTH_KEY=GK8dKpRS4sSv9ObCFc7aNMTBtjObGEIH #keeping it open here since we are on a private repo
-    - REDIS_URL=redis://redis:6379
+    - GIF_AUTH_KEY=${GIF_AUTH_KEY}  #keeping it open here since we are on a private repo
+    - REDIS_URL=${REDIS_URL}  #redis://redis:6379
+    - REDIS_PORT=${REDIS_PORT}
+    - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
     - redis
     networks:
