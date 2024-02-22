@@ -24,7 +24,7 @@ RUN yarn add react-scripts@3.4.0 -g
 ARG REACT_APP_BASE_URL
 
 # Build the production build
-RUN yarn run build
+RUN yarn build
 
 # Always good to repeat, we use nginx:stable-alpine as our base image
 FROM nginx:stable-alpine
