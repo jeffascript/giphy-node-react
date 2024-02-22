@@ -1,6 +1,6 @@
 # Build in this container
 # We also state that we will be using the alpine linux version as the base image
-FROM node:14.18.2 as builder
+FROM node:12.13.0-alpine as builder
 
 # We define /usr/src/app as our working directory -where our incoming commands will be executed-
 RUN mkdir -p /usr/src/app
