@@ -7,23 +7,24 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # We copy our package.json and package-lock.json (adapt if you are using yarn to yarn.lock ) into our workdir
-COPY package*.json /usr/src/app/
+COPY package.json /usr/src/app/
+COPY yarn.lock /usr/src/app/
 
 # Clean Installation
-RUN npm run install
+RUN yarn
 
 # COPY our app
 COPY . /usr/src/app/
 
 # We install react-scripts globally to avoid any bad surprise
-RUN npm install react-scripts@3.4.0 -g
+RUN yarn add react-scripts@3.4.0 -g
 
 
 # Add Env Variables for Build time
 ARG REACT_APP_BASE_URL
 
 # Build the production build
-RUN npm run build
+RUN yarn run build
 
 # Always good to repeat, we use nginx:stable-alpine as our base image
 FROM nginx:stable-alpine
