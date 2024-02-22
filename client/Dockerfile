@@ -17,7 +17,7 @@ RUN yarn
 COPY . /usr/src/app/
 
 # We install react-scripts globally to avoid any bad surprise
-RUN yarn add react-scripts@3.4.0 -g
+RUN yarn add react-scripts@4.0.3 -g
 
 
 # Add Env Variables for Build time
