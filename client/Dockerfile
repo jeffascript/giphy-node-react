@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 COPY package*.json /usr/src/app/
 
 # Clean Installation
-RUN npm ci
+RUN npm run install
 
 # COPY our app
 COPY . /usr/src/app/
