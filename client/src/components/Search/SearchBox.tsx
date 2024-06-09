@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchContext } from '../../ContextAPI/SearchHookContext';
 import { ActionType } from '../../ContextAPI/Actions.context';
 import { Input } from './Input';
@@ -7,7 +7,11 @@ const SearchBox: React.FC = React.memo(() => {
     const { context, fetchWithHooks } = useSearchContext();
 
     const [state, setState] = useState<string>('');
-    const [resultString, setResultString] = useState<string>('');
+    const [resultString, setResultString] = useState<string>('awesome');
+
+    useEffect(() => {
+        fetchWithHooks(resultString);
+    }, []);
 
     const clearData = useCallback(() => {
         context.dispatch({ type: ActionType.Clear });
