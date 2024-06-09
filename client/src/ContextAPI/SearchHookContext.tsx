@@ -88,7 +88,7 @@ const useSearchContext = () => {
     }
     const cache = new Map(); // for temporary cache storage and memoise the function to retain the data
     const fetchWithHooks = useMemo(
-        () => async (searchQuery: string) => {
+        () => async (searchQuery: string = "happy") => {
             // eslint-disable-next-line no-console
             const url =
                 process.env.NODE_ENV === 'production'
