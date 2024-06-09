@@ -31,7 +31,7 @@ docker-compose up --build
 
 This will build the docker images and start the app.
 
-> If you faceany issue after running `docker-compose up` command, please kill the server and restart again. Prolly, compiller issues from TS.
+> If you face any issue after running `docker-compose up` command, please kill the server and restart again. Prolly, compiller issues from TS.
 
 ### Ports
 
